@@ -1,0 +1,8 @@
+{
+  "name": "Remix Sistema Chip7 - Ordens de Serviço",
+  "description": "Sistema completo de Ordens de Serviço para assistência técnica: emissão de OS, controle de status, navegação sequencial, impressão de PDF, envio via WhatsApp e backup/sincronização no Google Drive.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
