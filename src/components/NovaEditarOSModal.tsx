@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ItemOrcamento, OrdemServico, Tecnico } from '../types';
 import { formatCurrency, formatOSNumber } from '../utils/formatters';
-import { X, Save, Plus, Trash2, ShieldAlert } from 'lucide-react';
+import { X, Save, Plus, Trash2, ShieldAlert, Sparkles } from 'lucide-react';
 
 interface NovaEditarOSModalProps {
   modo: 'nova' | 'editar';
@@ -25,6 +25,43 @@ export const NovaEditarOSModal: React.FC<NovaEditarOSModalProps> = ({
   const [form, setForm] = useState<OrdemServico>(() => {
     if (modo === 'editar' && osInicial) {
       return { ...osInicial };
+    }
+    if (modo === 'nova' && osInicial) {
+      return {
+        numeroOS: proximoNumero,
+        nomeCliente: osInicial.nomeCliente || '',
+        endereco: osInicial.endereco || '',
+        cep: osInicial.cep || '',
+        telefone: osInicial.telefone || '',
+        telefone2: osInicial.telefone2 || '',
+        email: osInicial.email || '',
+        cpfCnpj: osInicial.cpfCnpj || '',
+        aparelho: osInicial.aparelho || '',
+        marca: osInicial.marca || '',
+        modelo: osInicial.modelo || '',
+        numeroSerie: osInicial.numeroSerie || '',
+        senhaAparelho: osInicial.senhaAparelho || '',
+        acessorios: osInicial.acessorios || '',
+        defeitos: '',
+        observacoes: '',
+        laudoTecnico: '',
+        orcamento: [
+          { item: '', valor: 0 },
+          { item: '', valor: 0 },
+          { item: '', valor: 0 }
+        ],
+        valorTotal: 0,
+        atendente: osInicial.atendente || tecnicos[0]?.nome || 'Tália',
+        tecnico: osInicial.tecnico || tecnicos[1]?.nome || 'Henrique',
+        dataEntrada: hoje,
+        dataPendencia: '',
+        dataAprovado: '',
+        dataReprovado: '',
+        dataLiberado: '',
+        dataRetirado: '',
+        status: 'Entrada',
+        apagado: false
+      };
     }
     return {
       numeroOS: proximoNumero,
@@ -156,11 +193,20 @@ export const NovaEditarOSModal: React.FC<NovaEditarOSModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="text-white hover:bg-orange-700 p-1 rounded transition"
+            className="text-white hover:bg-orange-700 p-1 rounded transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
+
+        {modo === 'nova' && osInicial && (
+          <div className="bg-green-50 border-b border-green-300 px-5 py-2.5 flex items-center gap-2 text-xs text-green-900 font-semibold">
+            <Sparkles className="w-4 h-4 text-green-700 flex-shrink-0" />
+            <span>
+              <strong>Dados do Cliente e Equipamento copiados com sucesso</strong> da OS #{formatOSNumber(osInicial.numeroOS)}! Basta preencher o defeito reclamado e clicar em Gravar OS.
+            </span>
+          </div>
+        )}
 
         {/* Form Content */}
         <form onSubmit={handleSubmit} className="p-5 overflow-y-auto max-h-[80vh] space-y-4 text-xs">

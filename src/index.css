@@ -9,12 +9,21 @@
 }
 
 /* Print Rules for Imprimir / PDF */
+@page {
+  size: A4 portrait;
+  margin: 6mm 8mm;
+}
+
 @media print {
-  body {
+  html, body {
     background: #fff !important;
     color: #000 !important;
     padding: 0 !important;
     margin: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   
   .no-print {
@@ -23,12 +32,10 @@
 
   .print-only {
     display: block !important;
-    position: absolute;
-    left: 0;
-    top: 0;
+    position: relative;
     width: 100%;
-    margin: 0;
-    padding: 10mm;
+    margin: 0 auto;
+    padding: 0;
     box-sizing: border-box;
   }
 }

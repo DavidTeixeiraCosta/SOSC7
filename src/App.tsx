@@ -79,6 +79,7 @@ export default function App() {
 
   // Modal control
   const [activeModal, setActiveModal] = useState<ModalType>(null);
+  const [osParaCopiar, setOsParaCopiar] = useState<OrdemServico | null>(null);
   const [feedbackMsg, setFeedbackMsg] = useState<string>('');
 
   // Persist to localStorage
@@ -659,7 +660,10 @@ export default function App() {
         <div className="flex-[2] border-l border-[#ff6600] pl-2.5 flex flex-col justify-between bg-[#fffaf0] rounded-r p-1">
           <div className="flex flex-col gap-1.5">
             <button
-              onClick={() => setActiveModal('nova')}
+              onClick={() => {
+                setOsParaCopiar(null);
+                setActiveModal('nova');
+              }}
               className="w-full py-2.5 px-3 text-left bg-transparent border-0 border-b border-gray-300 hover:bg-[#ffead9] hover:text-[#ff6600] hover:font-bold text-gray-800 text-sm font-medium transition cursor-pointer flex items-center gap-2"
             >
               <span>📄</span> <span>Nova OS</span>
@@ -795,10 +799,17 @@ export default function App() {
       {activeModal === 'nova' && (
         <NovaEditarOSModal
           modo="nova"
+          osInicial={osParaCopiar}
           proximoNumero={proximoNumero}
           tecnicos={tecnicos}
-          onSalvar={handleSalvarOS}
-          onClose={() => setActiveModal(null)}
+          onSalvar={(os) => {
+            handleSalvarOS(os);
+            setOsParaCopiar(null);
+          }}
+          onClose={() => {
+            setActiveModal(null);
+            setOsParaCopiar(null);
+          }}
         />
       )}
 
@@ -827,6 +838,10 @@ export default function App() {
           osAtual={currentOS}
           todasOrdens={ordens}
           onSelecionarOS={(num) => setCurrentNumeroOS(num)}
+          onCriarNovaOSComDados={(dadosCopiados) => {
+            setOsParaCopiar(dadosCopiados);
+            setActiveModal('nova');
+          }}
           onClose={() => setActiveModal(null)}
         />
       )}
